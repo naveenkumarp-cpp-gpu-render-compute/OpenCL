@@ -2,6 +2,7 @@
 cd /d "%~dp0"
 
 set EXE=OpenCLTest.exe
+set CONFIG=Debug
 
 
 echo =========================
@@ -18,7 +19,6 @@ if not exist build (
 )
 
 
-REM Check if any source/header file is newer than executable
 set NEED_BUILD=0
 
 
@@ -44,7 +44,6 @@ for /r %%f in (*.cpp *.h *.cl *.cmake CMakeLists.txt) do (
 )
 
 
-
 if "%NEED_BUILD%"=="0" (
 
     echo No source changes detected.
@@ -55,13 +54,12 @@ if "%NEED_BUILD%"=="0" (
 )
 
 
-
 echo =========================
-echo Building
+echo Building %CONFIG%
 echo =========================
 
 
-cmake --build build --config Release
+cmake --build build --config %CONFIG%
 
 
 if errorlevel 1 exit /b 1
@@ -71,11 +69,13 @@ if errorlevel 1 exit /b 1
 :COPY
 
 echo =========================
-echo Copy executable
+echo Copy executable and debug symbols
 echo =========================
 
 
-copy /y "build\Release\OpenCLTest.exe" "OpenCLTest.exe"
+copy /y "build\%CONFIG%\OpenCLTest.exe" "OpenCLTest.exe"
+
+copy /y "build\%CONFIG%\OpenCLTest.pdb" "OpenCLTest.pdb"
 
 
 if errorlevel 1 exit /b 1

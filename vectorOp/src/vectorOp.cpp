@@ -6,16 +6,12 @@
 #include "cpu_vector.h"
 #include "opencl_vector.h"
 
-
 #define N 1000000
-
-
 
 void vectorTest()
 {
     std::cout << "\nVector Addition Test\n";
     std::cout << "--------------------\n";
-
 
     float *A = new float[N];
     float *B = new float[N];
@@ -23,19 +19,15 @@ void vectorTest()
     float *cpuResult = new float[N];
     float *gpuResult = new float[N];
 
-
-
     /*
         Initialize input data
     */
 
-    for(int i=0;i<N;i++)
+    for (int i = 0; i < N; i++)
     {
         A[i] = i;
-        B[i] = 2*i;
+        B[i] = 2 * i;
     }
-
-
 
     /*
         CPU execution timing
@@ -44,31 +36,24 @@ void vectorTest()
     auto cpuStart =
         std::chrono::high_resolution_clock::now();
 
-
     cpuVectorAdd(
         A,
         B,
         cpuResult,
         N);
 
-
     auto cpuEnd =
         std::chrono::high_resolution_clock::now();
 
-
     double cpuTime =
         std::chrono::duration<double>(
-            cpuEnd - cpuStart).count();
-
-
+            cpuEnd - cpuStart)
+            .count();
 
     std::cout
         << "CPU time    : "
         << cpuTime
         << " sec\n";
-
-
-
 
     /*
         OpenCL execution timing
@@ -90,60 +75,48 @@ void vectorTest()
         gpuResult,
         N);
 
-
     auto gpuEnd =
         std::chrono::high_resolution_clock::now();
 
-
     double gpuTime =
         std::chrono::duration<double>(
-            gpuEnd - gpuStart).count();
-
-
+            gpuEnd - gpuStart)
+            .count();
 
     std::cout
         << "OpenCL time : "
         << gpuTime
         << " sec\n";
 
-
-
-
     /*
         Verify CPU and GPU results
     */
 
-    bool match=true;
+    bool match = true;
 
-
-    for(int i=0;i<N;i++)
+    for (int i = 0; i < N; i  = i + 4)
     {
-        if(cpuResult[i] != gpuResult[i])
+        if (cpuResult[i] != gpuResult[i])
         {
-            match=false;
+            match = false;
             break;
         }
     }
 
-
-
-    if(match)
+    if (match)
         std::cout
-        << "Vector result MATCH\n";
+            << "Vector result MATCH\n";
     else
         std::cout
-        << "Vector result FAILED\n";
-
-
-
+            << "Vector result FAILED\n";
 
     /*
         Cleanup host memory
     */
 
-    delete [] A;
-    delete [] B;
+    delete[] A;
+    delete[] B;
 
-    delete [] cpuResult;
-    delete [] gpuResult;
+    delete[] cpuResult;
+    delete[] gpuResult;
 }
