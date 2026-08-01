@@ -8,7 +8,6 @@ int main()
     std::cout << "OpenCL Compute Framework\n";
     std::cout << "========================\n";
 
-
     /*
         Future:
 
