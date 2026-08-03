@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug OpenCLTest",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/OpenCL/OpenCLTest.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/OpenCL",
+            "console": "integratedTerminal"
+        }
+    ]
+}
