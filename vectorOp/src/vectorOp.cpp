@@ -36,24 +36,13 @@ void vectorTest()
     auto cpuStart =
         std::chrono::high_resolution_clock::now();
 
-    cpuVectorAdd(
-        A,
-        B,
-        cpuResult,
-        N);
+    cpuVectorAdd(A, B, cpuResult, N);
 
-    auto cpuEnd =
-        std::chrono::high_resolution_clock::now();
+    auto cpuEnd = std::chrono::high_resolution_clock::now();
 
-    double cpuTime =
-        std::chrono::duration<double>(
-            cpuEnd - cpuStart)
-            .count();
+    double cpuTime = std::chrono::duration<double>(cpuEnd - cpuStart).count();
 
-    std::cout
-        << "CPU time    : "
-        << cpuTime
-        << " sec\n";
+    std::cout << "CPU time    : " << cpuTime << " sec\n";
 
     /*
         OpenCL execution timing
@@ -66,27 +55,15 @@ void vectorTest()
 
     */
 
-    auto gpuStart =
-        std::chrono::high_resolution_clock::now();
+    auto gpuStart = std::chrono::high_resolution_clock::now();
 
-    openclVectorAdd(
-        A,
-        B,
-        gpuResult,
-        N);
+    openclVectorAdd(A, B, gpuResult, N);
 
-    auto gpuEnd =
-        std::chrono::high_resolution_clock::now();
+    auto gpuEnd = std::chrono::high_resolution_clock::now();
 
-    double gpuTime =
-        std::chrono::duration<double>(
-            gpuEnd - gpuStart)
-            .count();
+    double gpuTime = std::chrono::duration<double>(gpuEnd - gpuStart).count();
 
-    std::cout
-        << "OpenCL time : "
-        << gpuTime
-        << " sec\n";
+    std::cout << "OpenCL time : " << gpuTime << " sec\n";
 
     /*
         Verify CPU and GPU results
@@ -94,7 +71,7 @@ void vectorTest()
 
     bool match = true;
 
-    for (int i = 0; i < N; i  = i + 4)
+    for (int i = 0; i < N; i = i + 4)
     {
         if (cpuResult[i] != gpuResult[i])
         {
@@ -104,11 +81,9 @@ void vectorTest()
     }
 
     if (match)
-        std::cout
-            << "Vector result MATCH\n";
+        std::cout << "Vector result MATCH\n";
     else
-        std::cout
-            << "Vector result FAILED\n";
+        std::cout << "Vector result FAILED\n";
 
     /*
         Cleanup host memory

@@ -28,11 +28,13 @@ char* loadKernel(const char* filename) {
     Vector addition using OpenCL
     C = A + B
 */
-void openclVectorAdd(float* A, float* B, float* C, int size) {
+void 
+openclVectorAdd(float* A, float* B, float* C, int size) {
     // 1. Get platform and GPU device
     cl_platform_id platform;
     cl_device_id device;
     clGetPlatformIDs(1, &platform, NULL);
+    \
     clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
 
     // 2. Create context and command queue
@@ -59,15 +61,15 @@ void openclVectorAdd(float* A, float* B, float* C, int size) {
     clSetKernelArg(kernel, 1, sizeof(cl_mem), &bufB);
     clSetKernelArg(kernel, 2, sizeof(cl_mem), &bufC);
 
-    // 6. Execute kernel
+    // 6. Execute kernel (async enqueue)
     size_t globalSize = size;
-    clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, NULL, 0, NULL, NULL);
+    clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, NULL, 0, NULL, NULL); // async
 
-    // 7. Read results back to CPU
+    // 7. Read results back to CPU (async enqueue, CL_TRUE makes it blocking here)
     clEnqueueReadBuffer(queue, bufC, CL_TRUE, 0,
-                        sizeof(float) * size, C, 0, NULL, NULL);
+                        sizeof(float) * size, C, 0, NULL, NULL); // async, but CL_TRUE waits
 
-    // 8. wait for results to finish
+    // 8. Wait for all queued work to finish (synchronization point)
     clFinish(queue);
 
     // 9. Cleanup
@@ -80,3 +82,4 @@ void openclVectorAdd(float* A, float* B, float* C, int size) {
     clReleaseContext(context);
     free(source);
 }
+
