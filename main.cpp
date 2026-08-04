@@ -1,27 +1,9 @@
-#include <iostream>
-
-#include "vectorOp.h"
+#include "VectorOp/vectorOp.h"
 
 
 int main()
 {
-    std::cout << "OpenCL Compute Framework\n";
-    std::cout << "========================\n";
-
-    /*
-        Future:
-
-        vectorTest();
-
-        matrixTest();
-
-        imageTest();
-
-    */
-
-
-    vectorTest();
-
+    vector_ops_run();
 
     return 0;
 }
